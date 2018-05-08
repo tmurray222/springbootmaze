@@ -1,12 +1,12 @@
 # springbootmaze
 Coding test for Trimble
 
-#Overview
+# Overview
 I wrote the maze solver as a Spring Boot app. The API requests are handled in the MazeController. The front end page, index.html, 
 is served as a static page, but most of the dynamic work is done through JavaScript. I used jQuery mainly for simplicity 
 since I haven't learned enough about AngularJS to figure out how to write a good front end.
 
-#Packaging
+# Packaging
 This is a Spring Boot application. Assuming I'm using GitHub properly, you should be able to clone the repository and build the
 project through Maven. pom.xml is there so I believe it will load all the dependencies.
 
