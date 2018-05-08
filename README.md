@@ -36,8 +36,8 @@ This page has several divs that are hidden or shown depending on what's currentl
 * correctmaze: Display of the maze as solved thus far.  Within this, the solverbuttons div is hidden as soon as the maze is solved
 or is found non-solvable.
 * incorrectmaze: Any error messages found within MazeBuilder.  Try mangling one of the input files by removing or adding characters.
-* sadhorn: A little audio feedback (via SoundCloud) if the maze is valid but cannot be solved.  Try walling in the "B" cell so it can't be reached.
-* fireworks: A little celebration once the maze is properly solved.
+* sadhorn: A little audio feedback (via SoundCloud) if the maze is valid but cannot be solved.  Try walling in the "B" cell so it can't be reached.  (I had a little fun with this.)
+* fireworks: A little celebration once the maze is properly solved.  (I had a little fun with this as well.)
 
 # Packaging
 This is a Spring Boot application. Assuming I'm using GitHub properly, you should be able to clone the repository and build the
