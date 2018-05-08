@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<META http-equiv="Content-Style-Type" content="text/css">
+<link href="nrhp.css" type="text/css" rel="stylesheet">
+
+<script lang="text/javascript"
+	src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script lang="text/javascript">
+	var hasMaze = false;
+
+	$(document).ready(function() {
+		//if (hasMaze == false) {
+			$("#mazeinput").show();
+		//} else {
+		//	$("#mazeinput").hide();
+		//}
+		$("#correctmaze").hide();
+		$("#incorrectMaze").hide();
+	});
+
+	$( document ).ajaxError(function( event, request, settings ) {
+		  window.alert(request.responseJSON["message"]);
+		  $("#incorrectMaze").show();
+		  $("#correctmaze").hide();
+		  $("#errorDescription").text("Sorry, your maze could not be solved. " + request.responseJSON["message"]);
+		});
+	
+	function populateMaze(textRepresentation) {
+		$("#correctmaze").show();
+		$("#graphicTableBody").empty();
+		var textLines = textRepresentation.split("\n");
+		for (r = 0; r < textLines.length; r++) {
+			var rowToAppend = "<tr class=\"matrixTable\">\n";
+			for (c = 0; c < textLines[r].length; c++) {
+				var chr = textLines[r][c];
+				if (chr == '#') {
+					image = "redsquare";
+				} else if (chr == '.') {
+					image = "whitesquare";
+				} else if (chr == 'A') {
+					image = "startwhite";
+				} else if (chr == 'B') {
+					image = "endwhite";
+				} else if (chr == '*') { // path visited
+					image = "greensquare";
+				} else if (chr == '!') { // winning path!
+					image = "greensquaredot";
+				} else {
+					image = "whitesquare"; // fallback in case something wrong was sent
+				}
+				rowToAppend += "<td class=\"matrixNode\"><img class=\"matrixImage\" src='" + image + ".jpg'></td>";
+			}
+			rowToAppend += "</tr>\n";
+			$("#graphicTableBody").append(rowToAppend);
+		}
+		// Try to resize this semi-intelligently
+		var magicWidth = document.body.clientWidth / textLines[0].length;
+		if (magicWidth > 30) {
+			magicWidth = 30;
+		}
+		if (magicWidth < 6) {
+			magicWidth = 6;
+		}
+		var specifiedWidth = parseInt(magicWidth) + "px";
+
+		$(".matrixImage").css("height", specifiedWidth).css("width",
+				specifiedWidth);
+	}
+
+	function postMazeInput() {
+		console.log($("#inputMaze").val());
+
+		$.post('/inputMaze', {
+			inputMaze : $("#inputMaze").val()
+		}, function(returnedData) {
+			hasMaze = true;
+			console.log(returnedData);
+			populateMaze(returnedData.currentMaze);
+			$("#mazeinput").hide();
+		});
+	}
+	
+	function displayStepResults(returnedData) {
+		hasMaze = true;
+		console.log(returnedData);
+		populateMaze(returnedData.currentMaze);
+		$("#message").text(returnedData.message);
+		$("#mazeinput").hide();
+		if (returnedData.foundWinner) {
+			// play fireworks or something?
+			$("#solverButtons").hide();
+			$("#fireworks").show();
+		} else if (returnedData.hasNoSolution) {
+			// play sad trumpets or something?
+			$("#sadhorn").show();
+			$("#solverButtons").hide();
+		}
+	}
+	function solveSingleStep() {
+		$.get('/singleStep', function(returnedData) {
+			displayStepResults(returnedData);
+		});
+	}
+	
+	function solveFiveSteps() {
+		$.get('/fiveSteps', function(returnedData) {
+			displayStepResults(returnedData);
+		});
+	}
+	
+	function doCompleteSolution() {
+		$.get('/doCompleteSolution', function(returnedData) {
+			displayStepResults(returnedData);
+		});
+	}
+</script>
+<title>Todd's Maze Solver</title>
+</head>
+<body>
+	<h1>Todd's Maze Solver</h1>
+	<div id="mazeinput">
+		<p>Enter your maze in this nice convenient text box:</p>
+
+		<textarea name="inputMaze" id="inputMaze" rows="20" cols="80"></textarea>
+		<br>
+		<button type="button" onClick="postMazeInput()">Submit maze to the server</button>
+	</div>
+	<div id="correctmaze">
+
+		<table id="graphicTable" class="matrixTable">
+			<tbody id="graphicTableBody" class="matrixTable">
+			</tbody>
+		</table>
+		<p id="message"></p> <!-- completion messages or incremental steps will be populated here -->
+		<div id="solverButtons">
+			<p>Click here to run to completion.</p>
+			<button type="button" onClick="doCompleteSolution()">Run to completion</button>
+			
+			<p>Or, if you want to solve the maze step-by-step, click one of these:</p>
+			<button type="button" onClick="solveSingleStep()">Solve the next step</button>
+			<br>
+			<button type="button" onClick="solveFiveSteps()">Solve five steps</button>
+		</div>
+		<a href="index.html">Click here to start another maze.</a>
+		
+	</div>
+	<div id="incorrectMaze">
+		<!-- Placeholder that will be filled in by the AJAX failure -->
+		<p id="errorDescription" class="error">
+		</p>
+	</div>
+	
+	<div id="sadhorn" style="display:none">
+	<p>Sad horn sound from <i>The Price is Right</i></p>
+	<iframe width="50%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/137493132&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+	</div>
+	
+	<div id="fireworks" style="display:none">
+	<img src="fireworks.gif" width="719" height="477">
+	</div>
+</body>
+</html>

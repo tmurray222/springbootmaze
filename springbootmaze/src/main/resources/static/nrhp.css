@@ -1,0 +1,69 @@
+
+BODY {color: #800000; font-family: Verdana, Helvetica, sans-serif;}
+TD {color: #800000; font-family: Verdana, Helvetica, sans-serif;}
+.explan {color: #800000; font-family: Verdana, Helvetica, sans-serif; 
+font-weight: bold;}
+A {color: #c00000;}
+
+table {
+  border-collapse: collapse;
+  border-spacing:0px;
+}
+tr {
+  border-bottom: 0px;
+}
+th, td {
+  text-align: left;
+  padding: 0px;
+}
+
+.photosize {  size: -1; }
+
+.matrixTable {
+	border-collapse: collapse;
+	border-width: 0px;
+	padding:0px;
+	border-spacing:0px;
+}
+
+.matrixImage {
+	display: inline-block;
+}
+
+.matrixNode { padding:0px;line-height:0px;}
+
+.LeftCell {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+
+.LeftMenu{
+  font-family : "Trebuchet MS",helvetica,sans-serif;
+  font-weight : bold;
+  color : #fdd671;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+A.LeftMenu:link    { color : #fdd671;
+               text-decoration: none;
+               background: transparent;}
+     A.LeftMenu:active  { color: #fdd671;
+               text-decoration: none;
+               background: transparent;}
+     A.LeftMenu:visited { color: #fdd671;
+               text-decoration: none;
+               background: transparent;}
+
+.nobr {
+//white-space:nowrap;
+}
+
+thead {
+background-color:gray;
+position:relative; top:0px;
+}
+
+.bigtable {
+border-collapse: collapse;
+font-size:9px;
+}
