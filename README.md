@@ -6,6 +6,14 @@ I wrote the maze solver as a Spring Boot app. The API requests are handled in th
 is served as a static page, but most of the dynamic work is done through JavaScript. I used jQuery mainly for simplicity 
 since I haven't learned enough about AngularJS to figure out how to write a good front end.
 
+# GUI
+The maze is represented visually in an HTML table. I probably should have put in a legend, but it's pretty much self-explanatory.
+* Red: A wall
+* White: An open cell that can be visited
+* A and B: Start and end of the maze respectively
+* Green: Nodes that are checked during the solution process
+* Green with dot: The winning path from A to B.
+
 ## API handler
 MazeController handles the following API requests:
 * GET / Redirects to index.html, a static page.
